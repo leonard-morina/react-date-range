@@ -408,8 +408,18 @@ class Calendar extends PureComponent {
   };
 
   onDragSelectionEnd = (date, timeChanged = false) => {
-    const { updateRange, displayMode, onChange, dragSelectionEnabled } = this.props;
+    const {
+      updateRange,
+      displayMode,
+      onChange,
+      dragSelectionEnabled,
+      date: currentDate,
+      timeOptions,
+    } = this.props;
 
+    if (timeOptions && timeOptions.showTime && currentDate) {
+      date.setHours(currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+    }
     if (displayMode === 'date' || !this.state.drag.status) {
       onChange && onChange(date, undefined, timeChanged);
       return;
